@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ReadFile {
     public City[] cities;
@@ -20,38 +19,32 @@ public class ReadFile {
         density = Float.parseFloat(tokens[5]);
     }
 
-    public ReadFile() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter the name of the txt file:");
-        String txtfile = input.nextLine();
-        txtfile = txtfile + ".txt";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(txtfile))) {
+    public ReadFile(String fileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
 
             // Count the number of lines in the file to determine the array size
             while ((line = br.readLine()) != null) {
                 cityCount++;
             }
+        } catch (IOException e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
 
-            // Initialize the array with the determined size
-            cities = new City[cityCount];
+        // Initialize the array with the determined size
+        cities = new City[cityCount];
 
-            // Reset the BufferedReader to read from the start of the file
-            br.close();
-            br = new BufferedReader(new FileReader(txtfile));
-
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
             int index = 0;
             while ((line = br.readLine()) != null) {
                 String[] elements = line.split("\\s+");
                 lineProcessor(elements);
-                cities[index] = new City(id, city, population, area, density);
+                cities[index] = new City(id, city, population, area);
                 index++;
             }
         } catch (IOException e) {
             System.err.println("An error occurred: " + e.getMessage());
-        } finally {
-            input.close();
         }
     }
 

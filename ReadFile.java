@@ -16,7 +16,6 @@ public class ReadFile {
         city = tokens[1];
         population = Integer.parseInt(tokens[2]);
         area = Integer.parseInt(tokens[3]);
-        density = Float.parseFloat(tokens[5]);
     }
 
     public ReadFile(String fileName) {
